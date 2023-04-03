@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-pw
+  namespace: nestor
+  labels:
+    app: nginx-pw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-pw
+  template:
+    metadata:
+      labels:
+        app: nginx-pw
+    spec:
+      containers:
+      - name: nginx-pw
+        image: nestor625/nginx:nestorv3
+        ports:
+        - name: nginx-pw
+          containerPort: 80
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-pw
+  namespace: nestor
+  labels:
+    app: nginx-pw
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: nginx-pw
+  type: NodePort
+
